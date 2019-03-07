@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Body Test</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="Moonwarden">
+    <meta name="author" content="Kaloyan D. Bozhkov">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="assets/css/bootstrap.css">    
+    <link rel="stylesheet/less" type="text/css" href="assets/css/common.css" />
+    <link rel="stylesheet/less" type="text/css" href="assets/css/styles.less" />
+    <script src="assets/js/less.min.js" type="text/javascript"></script>
+
+</head>
+<body>
+    <div id="header" class="d-flex flex-row flex-wrap position-relative bottom-shadow">
+        <div class="col-12 col-sm-8 col-lg-4 offset-xl-2 text-center text-sm-left">
+            <h2 class="nowrap margin-0">Health & Care | Prototype</h2>
+        </div><div class="col-12 col-sm-4 col-lg-8 col-xl-4 text-center text-sm-right">
+            <p class="margin-0 h-100">For testing purposes.</p>
+        </div>
+    </div>
+    
+    <div id="explanation">
+        <!--First segment -->
+        <div class="d-flex flex-row flex-wrap bg-yellow">
+            <div class="col-12 col-lg-6 position-relative bg-white inward bottom-shadow-darker">
+                <div class="col-xl-8 offset-xl-4">
+                    <h2>What this prototype does</h2>
+                    <p>
+                        Clicking anywhere on the below image will create a circle contianing the name of the body part that was clicked, as long as it is within a registered area. Otherwise, "Unassigned" is used when an unregistered area is clicked. 
+                        Every circle which is within a registered area is saved to local storage, and pulled back when page is loaded. Double clicking a circle removes it from the DOM as well as from local storage, if it is saved. 
+                    </p>  
+                </div>
+                <div class="arrowStyling position-absolute">
+                    <div class="position-relative h-100 w-100">
+                        <div class="triangle position-absolute">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-12 col-lg-6 col-xl-6 box-shadow-colorSec">
+                
+            </div>
+        </div>
+        
+        <!--End first segment -->
+        <!--Second segment -->
+        <div class="d-flex flex-row flex-wrap bg-yellow">
+            <div class="col-12 col-lg-6 col-xl-6 order-2 order-lg-1 box-shadow-colorSec">
+                
+            </div>
+            <div class="col-12 col-lg-6 order-lg-2 order-1 position-relative bg-white inward flipped bottom-shadow-darker">
+                <div class="col-xl-8">
+                        <h2>Existing & New Areas</h2>
+                        <p>    
+                            There are a few areas added by default, these are "Left Hand", "Right Hand", "Left Knee", "Right Knee", "Stomach", "Upper Back" and "Lower Back". In order to add new zones the "Enable New Area Addition" button must be clicked. After clicking siad button the next two clicks on the image will begin and 
+                            end the selection of an area, instead of creating a circle. Once an area has been selected, a name can be assigned to it. <i>For this prototype overlapping areas have not been considered, so it is advised to create new areas on parts of the image where no other ones already exist.</i>
+                        </p> 
+                </div>
+                <div class="arrowStyling flipped position-absolute">
+                    <div class="position-relative h-100 w-100">
+                        <div class="triangle position-absolute">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--End second segment -->
+        
+        <!--Third segment -->
+        <div class="d-flex flex-row flex-wrap bg-yellow">
+            <div class="col-12 col-lg-6 position-relative bg-white inward bottom-shadow-darker">
+                <div class="col-xl-8 offset-xl-4">
+                   <h2>Methodology</h2>
+                    <p>   
+                        Everything showcased here is achieved by using CSS (with Less), HTML and JavaScript (with jQuery library), all of which is my own work. The positioning system, of both the circles and the selection area, is achieved through simple CSS.
+                        In particular, thanks to the <i>height: auto</i> style property, which allows the image to preserve its aspect ratio regardless of screen size, and the way absolute
+                        positioning with percentage values works. The strong advantage of such an implementation is that the browser is used to calculate these positions, instead of having to do the math only through JavaScript which would also require additional computation.
+                        Though, JavaScript is used to calculate the size of each circle when the window resizes, so that their sizes are in proportion to the new image size.
+                    </p> 
+                </div>
+                <div class="arrowStyling position-absolute">
+                    <div class="position-relative h-100 w-100">
+                        <div class="triangle position-absolute">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-12 col-lg-6 col-xl-6 box-shadow-colorSec">
+                
+            </div>
+        </div>
+        <!--End third segment -->
+    </div>
+    
+    <div id="content" class="d-flex flex-column flex-wrap">
+        <div class="col-12 col-lg-8 offset-lg-2">
+            <div id="controlSection" class="d-flex flex-row align-items-center flex-wrap">
+                <div class="col-12 col-lg-6 text-center">
+                    <h3>Currently active mode: </h3>
+                    <h3>ADDING CIRCLES ON CLICK</h3>
+                </div>
+                <div class="col-12 col-lg-6 text-center">
+                    <button id="addPositionsBtn" class="styled">Enable New Area Addition</button>
+                </div>                
+            </div>
+        </div>
+        <div class="col-12 col-lg-8 offset-lg-2">
+            <div id="containerParent">
+                <!-- Do not add border to container div, it takes px out of total widht/height -->
+                <div id="container" class="position-relative">
+                    <img id="img" />
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-8 offset-lg-2">
+            <h3>Areas currently selected:</h3>
+            <div id="selections">
+                <ul>
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="footer" class="d-flex flex-row flex-wrap">
+        <div class="col-12">
+            <p class="w-100 text-center">By Kaloyan D. Bozhkov</p>
+            <div>
+                <a href="https://www.linkedin.com/in/kaloyan-bozhkov-6a0205159/">Find Me On Linkdln</a>
+            </div><div>
+                <a href="http://www.kaloyanbozhkov.com">Visit My Website</a>
+            </div>
+        </div>
+    </div>
+
+
+
+<script src="assets/js/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+    var _canAdd = true;
+
+    $(document).on("click", "#img", function(e){
+        if(_canAdd){
+            var img = $('#img');
+            var offset = img.offset();
+            var mouseX = e.pageX - offset.left;
+            var mouseY = e.pageY - offset.top;        
+            positionCircle(mouseX, mouseY);   
+        }     
+    });
+
+
+    function positionCircle(mouseX, mouseY){//runs on click to add circle, does not run on load of circles from storage
+
+            //css positioning takes into account circle height, subtracting half of it in order to center div on mouse click position
+            //data-x and data-y attributes are relatvie to the exact position of the mouse when click event fires
+            //these do not take into consideration circle size
+            var container = $("#container");           
+            var _imgSizeX = parseInt($("#container").css("max-width").replace("px", ""));
+            var size = (container.outerWidth() * 100 / _imgSizeX).toFixed(2); //CHANGE 100 FOR DIFFERENT CIRCLE SIZES
+            var percentXMouseClick = returnPercentRelativeTo(mouseX, container.outerWidth(), true, 2);
+            var percentYMouseClick = returnPercentRelativeTo(mouseY, container.outerHeight(), true, 2);
+           
+            var containerWidth = container.outerWidth();
+
+            var id = uuidv4();
+
+            var halfOfCircle = size /2;
+            var x = mouseX - (halfOfCircle);
+            var y = mouseY - (halfOfCircle);           
+
+            var percentX = returnPercentRelativeTo(x, container.outerWidth(), true, 2);
+            var percentY = returnPercentRelativeTo(y, container.outerHeight(), true, 2);     
+            mapCircleToPart(id, percentXMouseClick, percentYMouseClick, size, container.outerWidth(), percentX, percentY); //saves new circle to _selectedAreas and then that to local storage, as long as it is from a click
+                    
+            appendCircle(id, size, percentXMouseClick, percentYMouseClick, container, container.outerWidth());
+            setParticularCircleCss($('.circle[data-id='+id+']'), percentX, percentY); //centers circle to click coords
+            
+    }
+
+    function uuidv4() { //used to generate GUID for circle ID
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
+    }
+
+    function returnPercentRelativeTo(howMuch, relativeToWhat, fixedDecimal = false, n = 2){
+        return (fixedDecimal) ? (howMuch * 100 / relativeToWhat).toFixed(n) : (howMuch * 100 / relativeToWhat);
+    }
+
+    function appendCircle(id, size, percentXMouseClick, percentYMouseClick, container, clickedOn){
+        var circle = '<div class="circle position-absolute" style="border-radius:'+size+'px; width:'+size+'px; height:'+size+'px;" data-size="'+size+'" data-id="'+id+'" data-x="'+percentXMouseClick+'" data-y="'+percentYMouseClick+'" data-clickedOn="'+clickedOn+'"></div>';            //only data-clickedon i sneeded since it contains width of container in which the image in. Since image is width: 100% and height: auto, and the container is max-width: img_width and max-height: img_height   
+    
+        container.append(circle);
+        
+        appendInnerCircleText(id, percentXMouseClick, percentYMouseClick);  
+    }
+
+    function appendInnerCircleText(id, percentXMouseClick, percentYMouseClick){ 
+        var innerCircleText = "<div class='parent both-full'><p class='child text-center' ><span class='nowrap'>rpa</span><br/><span class='nowrap'>X: ehx% </span><br/><span class='nowrap'>Y: uay%</span></p></div>"; 
+        $(".circle[data-id="+id+"]").append(innerCircleText.replace("rpa", ((id in _selectedAreas) ? _selectedAreas[id].bodyPart.name : "Unassigned")).replace("ehx", percentXMouseClick).replace("uay", percentYMouseClick));   
+    }    
+
+    function setParticularCircleCss(particularCircle, percentX, percentY){
+        particularCircle.css("left", percentX + "%");        
+        particularCircle.css("top", percentY + "%");
+    }
+
+    function mapCircleToPart(guid, positionX, positionY, size, clickedOn, top, left){
+        try { //using try because in JS you cannot break a forEach loop with break;
+            _positions.forEach(function(element, i){ //element is single object (inside of _positions array) representing body part
+                if(element.minX < positionX && element.maxX > positionX && element.minY < positionY && element.maxY > positionY){
+                    _selectedAreas[guid] = {percentXMouseClick: positionX, percentYMouseClick: positionY, size: size, clickedOn: clickedOn, top: top, left: left, bodyPart: _positions[i]};
+                    //If circle is anything but Unassigned Area, then save it to obj and local storage
+                    loadFromLocalStorage("save", "_selectedAreas", _selectedAreas);
+                    throw "break";
+                }
+            });
+        } catch(e){
+            if (e !== "break") throw e;
+        }
+    }
+
+    $(document).on("dblclick", ".circle", function(){
+        var thisCircle = $(this);
+        _canAdd = false;
+        thisCircle.addClass("hideAnimation");
+        delete _selectedAreas[thisCircle.attr("data-id")];
+        loadFromLocalStorage("save", "_selectedAreas", _selectedAreas);
+        setTimeout(function(){
+            thisCircle.remove();
+            _canAdd = true;
+        }, 500);
+
+    });
+
+    $(window).on("resize orientationchange", function(){
+        resizeCircles();
+    });
+
+    function resizeCircles(){
+        var currentWidth = $("#container").outerWidth();
+        var _imgSizeX = parseInt($("#container").css("max-width").replace("px", ""));
+        var currentSize = (currentWidth * 100 / _imgSizeX).toFixed(2);
+        $(".circle").each(function(){            
+            let oldSize = $(this).attr("data-size");
+            let oldWidth = $(this).attr("data-clickedon");
+            let size = oldSize * currentWidth / oldWidth;
+            console.log("oldWidth", oldWidth);
+            console.log("currentWidth", currentWidth);
+            console.log("oldSize", oldSize);
+            console.log(size);
+            $(this).css("width", size+"px");
+            $(this).css("height", size+"px");
+            $(this).css("border-radius", size+"px");    
+        });
+    }
+
+    /* OBJECT */
+    var _selectedAreas = {};
+
+    var _positions = [ //These are some test objects, remove them
+        { //Left Hand
+        id: 0,
+        minX: 8.22,
+        minY: 47.73,
+        maxX: 15.97,
+        maxY: 60.45,     
+        name: "Left Hand",
+        description: "This is the patients's left hand."
+        }, 
+        {//Right Hand
+        id: 1,
+        minX: 36.88,
+        minY: 50.75,
+        maxX: 43.58,
+        maxY: 60.88,
+        name: "Right Hand",
+        description: "This is the patients's right hand."
+        }, 
+        {//Left Knee
+        id: 2,
+        minX: 20.74,
+        minY: 66.81,
+        maxX: 25.66,
+        maxY: 77.8,
+        name: "Left Knee",
+        description: "This is the patients's Left Knee."
+        }, 
+        {//Right Knee
+        id: 3,
+        minX: 26.06,
+        minY: 67.88,
+        maxX: 30.91,
+        maxY: 76.5,
+        name: "Right Knee",
+        description: "This is the patients's Left Knee."
+        }, 
+        {//Stomach
+        id: 4,
+        minX: 22.51,
+        minY: 34.48,
+        maxX: 30.26,
+        maxY: 44.39,
+        name: "Stomach",
+        description: "This is the patient's stomach."
+        }, 
+        {//Upper Back
+        id: 5,
+        minX: 71.92,
+        minY: 23.27,
+        maxX: 83.22,
+        maxY: 36.42,
+        name: "Upper Back",
+        description: "This is the patient's upper back."
+        }, 
+        {//Lower Back
+        id: 6,
+        minX: 71.84,
+        minY: 39.76,
+        maxX: 83.06,
+        maxY: 46.76,
+        name: "Lower Back",
+        description: "This is the patient's lower back."
+        }
+    ];
+
+    function addNewPosition(id, minX, maxX, minY, maxY, objectWithContents){
+        _positions.push({
+            id: id,
+            minX: minX,
+            minY: minY,
+            maxX: maxX,
+            maxY: maxY,
+            name: objectWithContents["name"],
+            description: objectWithContents["description"]        
+        });
+    }
+
+
+//HANDLES ADDING NEW POSITION TO _positions ARRAY
+    _positionsEditing = false;
+
+    $(document).on("click", "#addPositionsBtn", function(){
+        _positionsEditing = !_positionsEditing;
+        _canAdd = !_positionsEditing;
+        $("#addPositionsBtn").attr("disabled", _positionsEditing);
+        $("#controlSection > div:first-of-type > h3:last-of-type").html((_positionsEditing ? "NEXT TWO CLICKS WILL SELECT AREA" : "ADDING CIRCLES ON CLICK"));
+    });
+
+    var _selection = {
+        a: {
+            top: -1,
+            left: -1
+        },
+        d: {
+            top: -1,
+            left: -1
+        },        
+        c: {
+            top: -1,
+            left: -1
+        },
+        b: {
+            top: -1,
+            left: -1
+        },
+        width: 0,
+        height: 0,
+        top: -1,//keeping these positions stored here, because they are calculated once on flip of sides, instead of every time mousemove event fires
+        left: -1,
+        lastCssProperty1: "",
+        lastCssProperty2: ""
+    };
+    
+    var _enableMovement = false;
+    
+    $(document).on("click", "#container", function(e){
+        if(_positionsEditing){
+            var self = $(this);
+            var offset = self.offset();
+            var mouseX = e.pageX - offset.left;
+            var mouseY = e.pageY - offset.top;
+            if(_selection.a.top == -1){
+                _selection.a.top = returnPercentRelativeTo(mouseY, self.outerHeight(), true);
+                _selection.a.left = returnPercentRelativeTo(mouseX, self.outerWidth(), true);
+                self.append("<div id='selectionDiv' class='selectionDiv'></div>");               
+                _enableMovement = true;
+            }        
+            else{          
+                updateDivSize(mouseX, mouseY);   //final update of selection area    
+                _enableMovement = false;  
+                _positionsEditing = (_positionsEditing)  ? false : true;
+                _canAdd = !_positionsEditing;
+                //remove selectionDIv here
+                var innerDiv = "<div class='both-full parent'><div class='child text-center'><div class='inline-block'><p>INSERT PART NAME:</p> <input id='bodyPartName' type='text' placeholder='Body Part Name'/><br/><p id='btnCancelSelection' class='inline-block btnStyling'>CANCEL</p><p id='btnAddSelection' class='btnStyling inline-block'>ADD</p></div></div></div>";
+                $("#selectionDiv").attr("id", "Old").append(innerDiv);
+            }
+        }
+    });
+
+    $(document).on("mousemove", "#container", function(e){
+        if(_enableMovement){
+            var self = $(this);
+            var offset = self.offset();
+            var mouseX = e.pageX - offset.left;
+            var mouseY = e.pageY - offset.top;          
+            updateDivSize(mouseX, mouseY);
+        }
+    });
+
+    function updateDivSize(x2, y2){ //used to update selection area on mouse move and final click
+        var div = $("#selectionDiv");
+        var container = $("#container");
+        var containerWidth = container.outerWidth();
+        var containerHeight = container.outerHeight();
+        //transform all coords to % instead of pixels
+        //currently have START and END points (diagonal)
+        _selection.d.left = returnPercentRelativeTo(x2, containerWidth, true);
+        _selection.d.top = returnPercentRelativeTo(y2, containerHeight, true);
+
+        //Calculate the remaining two points (opposite diagonal)
+        _selection.height = Math.abs(diff(_selection.a.top, _selection.d.top));
+        _selection.width = Math.abs(diff(_selection.a.left, _selection.d.left));
+        
+        _selection.b.top = _selection.a.top;
+        _selection.b.left = sum(_selection.a.left, _selection.width);
+        
+        _selection.c.top = _selection.d.top;
+        _selection.c.left = diff(_selection.d.left, _selection.width);
+        
+        //Now we have points A, B, C and D to save for new body part.
+        //Calculations for positioning using CSS
+        var cssProperty1 = "top";
+        var cssProperty2 = "left";
+        
+        if(parseFloat(_selection.a.top) > parseFloat(_selection.d.top))
+                cssProperty1 = "bottom";
+        
+
+        if(parseFloat(_selection.a.left) > parseFloat(_selection.d.left))
+                cssProperty2 = "right";
+              
+
+        var topValue = calculateY(cssProperty1);
+        var leftValue = calculateX(cssProperty2);
+
+        if(typeof topValue != "undefined" && typeof leftValue != "undefined"){
+            div.attr("style", cssProperty1 + ":" + topValue + "%; " + cssProperty2 + ":" + leftValue + "%; width: "+ _selection.width +"%; height: "+ _selection.height +"%;");
+        }
+    }
+
+    function calculateY(css){
+        if(_selection.lastCssProperty1 == css){
+            return _selection.top;
+        }else{
+            if(css == "top"){
+                _selection.lastCssProperty1 = css;
+                _selection.top = _selection.a.top;
+            }else{//bottom
+                var x = (diff(100, _selection.a.top));
+                _selection.top = x;
+                _selection.lastCssProperty1 = css;
+            }
+        }
+    }
+
+    function calculateX(css){
+        if(_selection.lastCssProperty2 == css){
+            return _selection.left;
+        }else{
+            if(css == "left"){
+                _selection.lastCssProperty2 = css;
+                _selection.left = _selection.a.left;
+                return _selection.a.left;
+            }else{//right
+                var x = (diff(100, _selection.a.left));
+                _selection.left = x;
+                _selection.lastCssProperty2 = css;
+                return x;
+            }
+        }
+    }
+
+    function sum(x, y, n = 2){
+        return (parseFloat(x) + parseFloat(y)).toFixed(n);
+    }
+
+    function diff(x, y, n = 2){
+        return (parseFloat(x) - parseFloat(y)).toFixed(n);
+    }
+
+    function returnFloat(x, n = 2){
+        return (parseFloat(x)).toFixed(n);
+    }
+
+    function resetSelectionValues(){    
+        _selection.a.top = -1;
+        _selection.a.left = -1;
+        _selection.b.top = -1;
+        _selection.b.left = -1;
+        _selection.c.top = -1;
+        _selection.c.left = -1;
+        _selection.d.top = -1;
+        _selection.d.left = -1;
+        _selection.width= 0;
+        _selection.height = 0;
+        _selection.top = -1;
+        _selection.left = -1;
+        _selection.lastCssProperty1 = "";    
+        _selection.lastCssProperty2 = "";    
+        $("#addPositionsBtn").attr("disabled", false);
+    }
+
+    //Event handlers for selection div buttons
+
+    $(document).on("click", "#btnCancelSelection", function(){
+       closeSelection();
+    });
+
+    function closeSelection(){
+        //stop addition
+        _positionsEditing = false;
+        _canAdd = true;
+        $("#controlSection > div:first-of-type > h3:last-of-type").html("ADDING CIRCLES ON CLICK");
+        //reset selection obj values
+        resetSelectionValues();
+        //remove window
+        $("#Old").fadeOut(300, function(){
+            $(this).remove();
+        });
+    }
+
+    $(document).on("click", "#btnAddSelection", function(){
+        if($("#bodyPartName").val().length > 0){
+            _positions.push(
+                {
+                    id: _positions.length,
+                    minX: parseFloat(_selection.a.left),
+                    minY: parseFloat(_selection.a.top),
+                    maxX: parseFloat(_selection.d.left),
+                    maxY: parseFloat(_selection.d.top),
+                    name: $("#bodyPartName").val(),
+                    description: "This was added programmatically"
+                }
+            );
+            loadFromLocalStorage("save", "_positions", _positions);
+            closeSelection();
+        }else{
+            alert("Insert value first.");
+        }
+    });
+
+    _circles = {};
+
+    function addCircle(guid){
+        _circles.guid;
+    }
+
+    //load from local storage
+    _positions = loadFromLocalStorage("load","_positions") != null ? loadFromLocalStorage("load","_positions") : _positions;
+    (function load_selectedAreas_fromStorage(){
+        var loadSelectedAreas = loadFromLocalStorage("load","_selectedAreas");
+        if(loadSelectedAreas != null){
+            _selectedAreas = loadSelectedAreas;
+            for(var guid in _selectedAreas){
+                //if(_selectedAreas.hasOwnProperty(guid)){         
+                    appendCircle(guid, _selectedAreas[guid].size, _selectedAreas[guid].percentXMouseClick, _selectedAreas[guid].percentYMouseClick, $("#container"), _selectedAreas[guid].clickedOn);    
+                    setParticularCircleCss($(".circle[data-id="+guid+"]"), _selectedAreas[guid].top, _selectedAreas[guid].left); //centers circle to click coords
+                //}
+            }
+            setTimeout(function(){
+                resizeCircles();  
+            }, 500)
+        }        
+    })();
+    
+
+    function loadFromLocalStorage(loadOrSave, what, obj = null){      
+        if(loadOrSave == "save"){//save
+            localStorage.setItem(what, JSON.stringify(obj));
+        }else{//load
+            if(localStorage.getItem(what) === null){
+                console.log("No save found");
+                return null;
+            }else{
+                return JSON.parse(localStorage.getItem(what));
+            }
+        }
+    }
+}); 
+</script>
+</body>
+</html>
