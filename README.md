@@ -1,5 +1,5 @@
 <h1>Health & Care</h1>
-<p>Have a go at the live version:<br/>http://kaloyanbozhkov.com/health&care/</p>
+<p>Have a go at the live version:<br/>www.kaloyanbozhkov.com/health&care/<br/>This is a good example of my current CSS3/JavaScript abilities, since it is one of the most recent projects of mine. I worked on it in my spare time throughout the last month, the total number of hours put into it is almost 28.</p>
 <h2>What this prototype does</h2>
 <p>Clicking anywhere on the below image will create a circle contianing the name of the body part that was clicked, as long as it is within a registered area. Otherwise, "Unassigned" is used when an unregistered area is clicked. Every circle which is within a registered area is saved to local storage, and pulled back when page is loaded. Double clicking a circle removes it from the DOM as well as from local storage, if it is saved.</p>
 <h2>Existing & New Areas</h2>
